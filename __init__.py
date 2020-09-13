@@ -11,9 +11,17 @@ from aqt.qt import *
 
 
 def add_note():
-    did = mw.col.decks.id_for_name("test")
-    mid = mw.col.models.id_for_name("cc Chinese")
+    col = mw.col
+    did = col.decks.id_for_name("test")
+    m = col.models.byName("cc Chinese")
+    mid = m['id']
     showInfo("deck id for the deck test: {}. Model id for cc Chinese: {}".format(did, mid))
+    col.models.setCurrent(m)
+    n = col.newNote()
+    n['Pinyin'] = "ce4 shi4"
+    n['Simplified'] = "测试"
+    n['English'] = "test"
+    col.add_note(n, did)
 
 
 def show_card_count():
@@ -30,3 +38,4 @@ action = QAction("test", mw)
 action.triggered.connect(add_note)
 # and add it to the tools menu
 mw.form.menuTools.addAction(action)
+action.setShortcut(QKeySequence("Ctrl+t"))
